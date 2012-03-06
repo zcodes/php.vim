@@ -59,7 +59,7 @@ if !exists("main_syntax")
   let main_syntax = 'php'
 endif
 
-runtime syntax/html.vim
+runtime! syntax/html.vim
 unlet b:current_syntax
 
 " Set sync method if none declared
