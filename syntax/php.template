@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language: PHP 5.3 & up
 " Maintainer: Paul Garvin <paul@paulgarvin.net>
-" Last Change:  April 2, 2010
-" URL: 
+" Contributor: Stan Angeloff <stanimir@angeloff.name>
+" URL: https://github.com/StanAngeloff/php.vim
 "
 " Former Maintainer:  Peter Hodge <toomuchphp-vim@yahoo.com>
 " Former URL: http://www.vim.org/scripts/script.php?script_id=1571
@@ -48,9 +48,8 @@
 "    will highight '->someOtherVar->bar' as though they will be parsed
 "    as object member variables, but PHP only recognizes the first
 "    object member variable ($foo->someVar).
-"
-"
-"
+
+
 if exists("b:current_syntax")
   finish
 endif
@@ -89,7 +88,7 @@ if exists("php_html_in_strings")
 endif
 
 syn case match
- 
+
 " Superglobals
 syn keyword phpSuperglobals GLOBALS _GET _POST _REQUEST _FILES _COOKIE _SERVER _SESSION _ENV HTTP_RAW_POST_DATA php_errormsg http_response_header argc argv contained
 
