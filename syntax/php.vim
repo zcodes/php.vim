@@ -60,7 +60,9 @@ if !exists("main_syntax")
 endif
 
 runtime! syntax/html.vim
-unlet b:current_syntax
+unlet! b:current_syntax
+" HTML syntax file turns on spelling for all top level words, we attempt to turn off
+syntax spell default
 
 " Set sync method if none declared
 if !exists("php_sync_method")
@@ -76,7 +78,7 @@ syn cluster htmlPreproc add=phpRegion
 syn include @sqlTop syntax/sql.vim
 
 syn sync clear
-unlet b:current_syntax
+unlet! b:current_syntax
 syn cluster sqlTop remove=sqlString,sqlComment
 if exists("php_sql_query")
   syn cluster phpAddStrings contains=@sqlTop
@@ -88,7 +90,7 @@ endif
 
 syn case match
  
-" Superblobals
+" Superglobals
 syn keyword phpSuperglobals GLOBALS _GET _POST _REQUEST _FILES _COOKIE _SERVER _SESSION _ENV HTTP_RAW_POST_DATA php_errormsg http_response_header argc argv contained
 
 " Magic Constants
