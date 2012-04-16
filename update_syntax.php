@@ -103,11 +103,10 @@ $allowed_extensions = array(
 $processed = array();
 
 foreach ($allowed_extensions as $extension) {
-	$details = array();
 
 	try {
+		$details = array();
 		$options = new ReflectionExtension($extension);
-		$details['name'] = $options->getName();
 
 		$classes   = array();
 		$functions = array_keys($options->getFunctions());
@@ -120,6 +119,8 @@ foreach ($allowed_extensions as $extension) {
 
 		$constants = array_unique($constants);
 
+		$details['name'] = $options->getName();
+
 		if (sizeof ($functions)) {
 			$details['functions'] = implode(' ', $functions);
 		}
@@ -129,11 +130,11 @@ foreach ($allowed_extensions as $extension) {
 		if (sizeof ($classes)) {
 			$details['classes'] = implode(' ', $classes);
 		}
+
+		$processed[$extension] = $details;
 	} catch (Exception $e) {
 		print "ERROR: '{$extension}' -- " . $e->getMessage() . "\n";
 	}
-
-	$processed[$extension] = $details;
 }
 
 $code = "syn case match\n\n";
