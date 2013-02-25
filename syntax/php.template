@@ -74,7 +74,12 @@ endif
 
 syn cluster htmlPreproc add=phpRegion
 
-syn include @sqlTop syntax/mysql.vim
+" Use MySQL as the default SQL syntax file.
+" See https://github.com/StanAngeloff/php.vim/pull/1
+if !exists('b:sql_type_override') && !exists('g:sql_type_default')
+  let b:sql_type_override='mysql'
+endif
+syn include @sqlTop syntax/sql.vim
 
 syn sync clear
 unlet! b:current_syntax
