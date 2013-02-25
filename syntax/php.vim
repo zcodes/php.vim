@@ -467,19 +467,9 @@ if exists("php_folding") && php_folding==1
   syn region phpFoldCatch matchgroup=Exception start="^\z(\s*\)catch\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
   syn region phpFoldTry matchgroup=Exception start="^\z(\s*\)try\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
 elseif exists("php_folding") && php_folding==2
-"  syn keyword phpDefine function  contained
-"  syn keyword phpStructure  abstract class interface  contained
-"  syn keyword phpException  catch throw try contained
-"  syn keyword phpStorageClass final global private protected public static  contained
-
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
   syn region phpParent matchgroup=Delimiter start="{" end="}"  contained contains=@phpClFunction,phpFoldHtmlInside transparent fold
-else
-"  syn keyword phpDefine function  contained
-"  syn keyword phpStructure  abstract class interface  contained
-"  syn keyword phpException  catch throw try contained
-"  syn keyword phpStorageClass final global private protected public static  contained
 endif
 
 " Sync
@@ -488,7 +478,6 @@ if php_sync_method==-1
   syn sync match phpRegionSync grouphere NONE "^\s*?>\s*$"
   syn sync match phpRegionSync grouphere NONE "^\s*%>\s*$"
   syn sync match phpRegionSync grouphere phpRegion "function\s.*(.*\$"
-  "syn sync match phpRegionSync grouphere NONE "/\i*>\s*$"
 elseif php_sync_method>0
   exec "syn sync minlines=" . php_sync_method
 else
