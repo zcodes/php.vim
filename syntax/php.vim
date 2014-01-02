@@ -12,6 +12,9 @@
 " Contributor: Tim Carry <tim@pixelastic.com>
 " URL: https://github.com/pixelastic/php.vim
 "
+" Contributor: Joshua Sherman <josh@gravityblvd.com>
+" URL: https://github.com/joshtronic/php.vim
+"
 " Former Maintainer:  Peter Hodge <toomuchphp-vim@yahoo.com>
 " Former URL: http://www.vim.org/scripts/script.php?script_id=1571
 "
@@ -327,7 +330,7 @@ syntax keyword phpClasses containedin=ALLBUT,phpComment,phpStringDouble,phpStrin
 syn keyword phpKeyword if echo else elseif while do for foreach function break switch case default continue return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone contained
 
 " Exception Keywords
-syn keyword phpKeyword try catch throw contained
+syn keyword phpKeyword try catch finally throw contained
 
 " Class Keywords
 syn keyword phpType class abstract extends interface implements static final var public private protected const trait contained
