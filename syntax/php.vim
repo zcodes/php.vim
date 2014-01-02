@@ -327,7 +327,7 @@ syn keyword phpFunctions readgzfile gzrewind gzclose gzeof gzgetc gzgets gzgetss
 syntax keyword phpClasses containedin=ALLBUT,phpComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar
 
 " Control Structures
-syn keyword phpKeyword if echo else elseif while do for foreach function break switch case default continue return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone contained
+syn keyword phpKeyword if echo else elseif while do for foreach function break switch case default continue return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone yield contained
 
 " Exception Keywords
 syn keyword phpKeyword try catch finally throw contained
