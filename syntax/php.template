@@ -310,7 +310,7 @@ if !exists("did_php_syn_inits")
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
-  hi def link phpBoolean          Constant
+  hi def link phpBoolean          Boolean
   hi def link phpNumber           Number
   hi def link phpStringSingle     String
   hi def link phpStringDouble     String
