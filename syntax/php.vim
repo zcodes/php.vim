@@ -9,6 +9,9 @@
 " Contributor: Alessandro Antonello <aleantonello@hotmail.com>
 " URL: https://github.com/aantonello/php.vim
 "
+" Contributor: Tim Carry <tim@pixelastic.com>
+" URL: https://github.com/pixelastic/php.vim
+"
 " Former Maintainer:  Peter Hodge <toomuchphp-vim@yahoo.com>
 " Former URL: http://www.vim.org/scripts/script.php?script_id=1571
 "
@@ -414,13 +417,13 @@ endif
 
 " String
 if exists("php_parent_error_open")
-  syn region phpStringDouble matchgroup=None start=+"+ skip=+\\\\\|\\"+ end=+"+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
-  syn region phpBacktick matchgroup=None start=+`+ skip=+\\\\\|\\"+ end=+`+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
-  syn region phpStringSingle matchgroup=None start=+'+ skip=+\\\\\|\\'+ end=+'+  contains=@Spell,@phpAddStrings,phpStrEsc contained keepend
+  syn region phpStringDouble matchgroup=phpStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
+  syn region phpBacktick matchgroup=phpStringDelimiter start=+`+ skip=+\\\\\|\\"+ end=+`+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
+  syn region phpStringSingle matchgroup=phpStringDelimiter start=+'+ skip=+\\\\\|\\'+ end=+'+  contains=@Spell,@phpAddStrings,phpStrEsc contained keepend
 else
-  syn region phpStringDouble matchgroup=None start=+"+ skip=+\\\\\|\\"+ end=+"+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained extend keepend
-  syn region phpBacktick matchgroup=None start=+`+ skip=+\\\\\|\\"+ end=+`+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained extend keepend
-  syn region phpStringSingle matchgroup=None start=+'+ skip=+\\\\\|\\'+ end=+'+  contains=@Spell,@phpAddStrings,phpStrEsc contained keepend extend
+  syn region phpStringDouble matchgroup=phpStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained extend keepend
+  syn region phpBacktick matchgroup=phpStringDelimiter start=+`+ skip=+\\\\\|\\"+ end=+`+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained extend keepend
+  syn region phpStringSingle matchgroup=phpStringDelimiter start=+'+ skip=+\\\\\|\\'+ end=+'+  contains=@Spell,@phpAddStrings,phpStrEsc contained keepend extend
 endif
 
 " HereDoc
@@ -512,6 +515,7 @@ if !exists("did_php_syn_inits")
   hi def link phpStringSingle     String
   hi def link phpStringDouble     String
   hi def link phpBacktick         String
+  hi def link phpStringDelimiter  String
   hi def link phpHereDoc          String
   hi def link phpNowDoc           String
   hi def link phpFunctions        Function
