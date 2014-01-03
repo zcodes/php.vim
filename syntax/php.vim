@@ -324,7 +324,7 @@ syn keyword phpFunctions readgzfile gzrewind gzclose gzeof gzgetc gzgets gzgetss
 " === END BUILTIN FUNCTIONS, CLASSES, AND CONSTANTS =====================================
 
 " The following is needed afterall it seems.
-syntax keyword phpClasses containedin=ALLBUT,phpComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar
+syntax keyword phpClasses containedin=ALLBUT,phpComment,phpDocComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar
 
 " Control Structures
 syn keyword phpKeyword if echo else elseif while do for foreach function break switch case default continue return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone yield contained
@@ -408,6 +408,25 @@ if exists("php_parent_error_open")
 else
   syn region phpComment start="/\*" end="\*/" contained contains=phpTodo,@Spell extend
 endif
+
+syn match phpCommentStar contained "^\s*\*[^/]"me=e-1
+syn match phpCommentStar contained "^\s*\*$"
+
+if !exists("php_ignore_phpdoc")
+  syn case ignore
+
+  syn region phpDocComment   start="/\*\*" end="\*/" keepend contains=phpCommentTitle,phpDocTags,phpTodo
+  syn region phpCommentTitle contained matchgroup=phpDocComment start="/\*\*" matchgroup=phpCommmentTitle keepend end="\.$" end="\.[ \t\r<&]"me=e-1 end="[^{]@"me=s-2,he=s-1 end="\*/"me=s-1,he=s-1 contains=phpCommentStar,phpTodo,phpDocTags containedin=phpComment
+
+  syn region phpDocTags  start="{@\(example\|id\|internal\|inheritdoc\|link\|source\|toc\|tutorial\)" end="}" containedin=phpComment
+  syn match  phpDocTags  "@\(abstract\|access\|author\|category\|copyright\|deprecated\|example\|final\|global\|ignore\|internal\|license\|link\|method\|name\|package\|param\|property\|return\|see\|since\|static\|staticvar\|subpackage\|todo\|tutorial\|uses\|var\|version\)\s\+\S\+.*" contains=phpDocParam containedin=phpComment
+  syn match  phpDocParam "\s\S\+" contains=phpDocIdentifier
+  syn match  phpDocIdentifier contained "$\h\w*"
+  syn match  phpDocTags  "@filesource" containedin=phpComment
+
+  syn case match
+endif
+
 if version >= 600
   syn match phpComment  "#.\{-}\(?>\|$\)\@="  contained contains=phpTodo,@Spell
   syn match phpComment  "//.\{-}\(?>\|$\)\@=" contained contains=phpTodo,@Spell
@@ -456,7 +475,7 @@ endif
 
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
-syn cluster phpClInside contains=@phpClConst,phpComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
+syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
 syn cluster phpClTop contains=@phpClFunction,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
 
@@ -508,7 +527,10 @@ endif
 " For version 5.8 and later: only when an item doesn't have highlighting yet
 if !exists("did_php_syn_inits")
 
+  hi def link phpCommentTitle     SpecialComment
   hi def link phpComment          Comment
+  hi def link phpDocComment       Comment
+  hi def link phpCommentStar      Comment
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
@@ -526,6 +548,7 @@ if !exists("did_php_syn_inits")
   hi def link phpException        StorageClass
   hi def link phpIdentifier       Identifier
   hi def link phpIdentifierSimply Identifier
+  hi def link phpDocIdentifier    Identifier
   hi def link phpStatement        Statement
   hi def link phpStructure        Statement
   hi def link phpOperator         Operator
@@ -537,7 +560,9 @@ if !exists("did_php_syn_inits")
   hi def link phpSCKeyword        Keyword
   hi def link phpSuperglobals     Type
   hi def link phpType             Type
+  hi def link phpDocParam         Type
   hi def link phpMemberSelector   Operator
+  hi def link phpDocTags          Special
   hi def link phpParent           Special
   hi def link phpSpecialChar      SpecialChar
   hi def link phpStrEsc           SpecialChar
