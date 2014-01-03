@@ -362,7 +362,7 @@ syn match phpVarSelector    "\$"  contained display
 syn match phpMethodsVar     "->\h\w*" contained contains=phpMethods,phpMemberSelector display containedin=phpStringDouble
 
 " Identifier
-syn match  phpIdentifier         "$\h\w*"  contained contains=phpEnvVar,phpIntVar,phpVarSelector display
+syn match  phpIdentifier         "$\h\w*"  contained contains=phpSuperglobals,phpVarSelector display
 syn match  phpIdentifierSimply   "${\h\w*}"  contains=phpOperator,phpParent  contained display
 syn region phpIdentifierComplex  matchgroup=phpParent start="{\$"rs=e-1 end="}"  contains=phpIdentifier,phpMemberSelector,phpVarSelector,phpIdentifierArray contained extend
 syn region phpIdentifierArray    matchgroup=phpParent start="\[" end="]" contains=@phpClInside contained
@@ -445,7 +445,7 @@ endif
 " Parent
 if exists("php_parent_error_close") || exists("php_parent_error_open")
   syn match  phpParent "[{}]"  contained
-  syn region phpParent matchgroup=Delimiter start="(" end=")"  contained contains=@phpClInside transparent
+  syn region phpParent matchgroup=Delimiter start="(" end=")"  contained contains=@phpClFunction transparent
   syn region phpParent matchgroup=Delimiter start="\[" end="\]"  contained contains=@phpClInside transparent
   if !exists("php_parent_error_close")
     syn match phpParent "[\])]" contained
@@ -509,7 +509,6 @@ endif
 if !exists("did_php_syn_inits")
 
   hi def link phpComment          Comment
-  hi def link phpSuperglobals     Constant
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
@@ -536,6 +535,7 @@ if !exists("did_php_syn_inits")
   hi def link phpKeyword          Keyword
   hi def link phpFCKeyword        Keyword
   hi def link phpSCKeyword        Keyword
+  hi def link phpSuperglobals     Type
   hi def link phpType             Type
   hi def link phpMemberSelector   Operator
   hi def link phpParent           Special
