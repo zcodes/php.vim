@@ -421,10 +421,9 @@ if !exists("php_ignore_phpdoc")
   syn region phpCommentTitle contained matchgroup=phpDocComment start="/\*\*" matchgroup=phpCommmentTitle keepend end="\.$" end="\.[ \t\r<&]"me=e-1 end="[^{]@"me=s-2,he=s-1 end="\*/"me=s-1,he=s-1 contains=phpCommentStar,phpTodo,phpDocTags,@Spell containedin=phpComment
 
   syn region phpDocTags  start="{@\(example\|id\|internal\|inheritdoc\|link\|source\|toc\|tutorial\)" end="}" containedin=phpComment
-  syn match  phpDocTags  "@\(abstract\|access\|author\|category\|copyright\|deprecated\|example\|final\|global\|ignore\|internal\|license\|link\|method\|name\|package\|param\|property\|return\|see\|since\|static\|staticvar\|subpackage\|todo\|tutorial\|uses\|var\|version\)\s\+\S\+.*" contains=phpDocParam containedin=phpComment
+  syn match  phpDocTags  "@\(abstract\|access\|author\|category\|copyright\|deprecated\|example\|exception\|filesource\|final\|global\|id\|ignore\|inheritdoc\|internal\|license\|link\|magic\|method\|name\|package\|param\|property\|return\|see\|since\|source\|static\|staticvar\|subpackage\|throws\|toc\|todo\|tutorial\|uses\|var\|version\)\s\+\S\+.*" contains=phpDocParam containedin=phpComment
   syn match  phpDocParam "\s\S\+" contained contains=phpDocIdentifier
   syn match  phpDocIdentifier contained "$\h\w*"
-  syn match  phpDocTags  "@filesource" containedin=phpComment
 
   syn case match
 endif
