@@ -527,10 +527,13 @@ endif
 " For version 5.8 and later: only when an item doesn't have highlighting yet
 if !exists("did_php_syn_inits")
 
-  hi def link phpCommentTitle     SpecialComment
   hi def link phpComment          Comment
-  hi def link phpDocComment       Comment
   hi def link phpCommentStar      Comment
+  hi def link phpDocComment       Comment
+  hi def link phpCommentTitle     Comment
+  hi def link phpDocTags          Comment
+  hi def link phpDocParam         Comment
+  hi def link phpDocIdentifier    Comment
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
@@ -548,7 +551,6 @@ if !exists("did_php_syn_inits")
   hi def link phpException        StorageClass
   hi def link phpIdentifier       Identifier
   hi def link phpIdentifierSimply Identifier
-  hi def link phpDocIdentifier    Identifier
   hi def link phpStatement        Statement
   hi def link phpStructure        Statement
   hi def link phpOperator         Operator
@@ -560,9 +562,7 @@ if !exists("did_php_syn_inits")
   hi def link phpSCKeyword        Keyword
   hi def link phpSuperglobals     Type
   hi def link phpType             Type
-  hi def link phpDocParam         Type
   hi def link phpMemberSelector   Operator
-  hi def link phpDocTags          Special
   hi def link phpParent           Special
   hi def link phpSpecialChar      SpecialChar
   hi def link phpStrEsc           SpecialChar
