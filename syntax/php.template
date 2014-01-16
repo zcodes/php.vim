@@ -325,12 +325,6 @@ endif
 if !exists("did_php_syn_inits")
 
   hi def link phpComment          Comment
-  hi def link phpCommentStar      Comment
-  hi def link phpDocComment       Comment
-  hi def link phpCommentTitle     Comment
-  hi def link phpDocTags          Comment
-  hi def link phpDocParam         Comment
-  hi def link phpDocIdentifier    Comment
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
@@ -351,21 +345,30 @@ if !exists("did_php_syn_inits")
   hi def link phpStatement        Statement
   hi def link phpStructure        Statement
   hi def link phpOperator         Operator
-  hi def link phpVarSelector      Operator
+  hi def link phpMemberSelector   Operator
   hi def link phpInclude          PreProc
   hi def link phpDefine           PreProc
   hi def link phpKeyword          Keyword
-  hi def link phpFCKeyword        Keyword
-  hi def link phpSCKeyword        Keyword
   hi def link phpSuperglobals     Type
   hi def link phpType             Type
-  hi def link phpMemberSelector   Operator
   hi def link phpParent           Special
   hi def link phpSpecialChar      SpecialChar
   hi def link phpStrEsc           SpecialChar
   hi def link phpParentError      Error
   hi def link phpOctalError       Error
   hi def link phpTodo             Todo
+
+  hi def link phpCommentStar      phpComment
+  hi def link phpDocComment       phpComment
+  hi def link phpCommentTitle     phpComment
+  hi def link phpDocTags          phpComment
+  hi def link phpDocParam         phpComment
+  hi def link phpDocIdentifier    phpComment
+
+  hi def link phpFCKeyword        phpKeyword
+  hi def link phpSCKeyword        phpKeyword
+
+  hi def link phpVarSelector      phpIdentifier
 
 endif
 
