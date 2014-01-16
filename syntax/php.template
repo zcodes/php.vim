@@ -197,7 +197,9 @@ if exists("php_parent_error_close")
 endif
 
 " Todo
-syn keyword phpTodo todo fixme xxx note contained
+syn case match
+syn keyword phpTodo TODO FIXME XXX NOTE contained
+syn case ignore
 
 " Comment
 if exists("php_parent_error_open")
