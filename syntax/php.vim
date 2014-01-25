@@ -360,6 +360,7 @@ syn match phpMemberSelector "->"  contained display
 syn match phpVarSelector    "\$"  contained display
 " highlight object variables inside strings
 syn match phpMethodsVar     "->\h\w*" contained contains=phpMethods,phpMemberSelector display containedin=phpStringDouble
+syn match phpSplatOperator  "\.\.\." contained display
 
 " Identifier
 syn match  phpIdentifier         "$\h\w*"  contained contains=phpSuperglobals,phpVarSelector display
@@ -475,7 +476,7 @@ else
 endif
 
 " Clusters
-syn cluster phpClConst contains=phpFunctions,phpClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
+syn cluster phpClConst contains=phpFunctions,phpClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
 syn cluster phpClTop contains=@phpClFunction,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
@@ -561,6 +562,8 @@ if !exists("did_php_syn_inits")
   hi def link phpParentError      Error
   hi def link phpOctalError       Error
   hi def link phpTodo             Todo
+
+  hi def link phpSplatOperator    phpOperator
 
   hi def link phpCommentStar      phpComment
   hi def link phpDocComment       phpComment
