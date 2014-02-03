@@ -38,6 +38,10 @@
 "                             x>0 to sync at least x lines backwards
 "                             x=0 to sync from start
 "
+"           php_var_selector_is_identifier = 1  include the '$' as part of identifiers.
+"                                               Variables will be highlighted as a single 'phpIdentifier' group
+"                                               instead of as 'phpOperator' for '$' and 'phpIdentifier' the rest.
+"
 " Note:
 " Setting php_folding=1 will match a closing } by comparing the indent
 " before the class or function keyword with the indent of a matching }.
@@ -575,7 +579,11 @@ if !exists("did_php_syn_inits")
   hi def link phpFCKeyword        phpKeyword
   hi def link phpSCKeyword        phpKeyword
 
-  hi def link phpVarSelector      phpIdentifier
+  if exists("php_var_selector_is_identifier")
+    hi def link phpVarSelector    phpIdentifier
+  else
+    hi def link phpVarSelector    phpOperator
+  endif
 
 endif
 
