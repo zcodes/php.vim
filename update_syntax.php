@@ -158,8 +158,4 @@ foreach ($processed as $extension) {
 	}
 }
 
-file_put_contents(
-	__DIR__ . '/syntax/php.vim',
-	str_replace('${code}', $code, file_get_contents(__DIR__ . '/syntax/php.template')),
-	LOCK_EX
-);
+print str_replace('${code}', $code, file_get_contents(__DIR__ . '/syntax/php.template'));
