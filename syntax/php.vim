@@ -479,8 +479,11 @@ else
   syn match phpParent "[({[\]})]" contained
 endif
 
+" Static classes
+syn match phpStaticClasses "\v\h\w+(::)@=" contained display
+
 " Clusters
-syn cluster phpClConst contains=phpFunctions,phpClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
+syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
 syn cluster phpClTop contains=@phpClFunction,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
@@ -578,6 +581,8 @@ if !exists("did_php_syn_inits")
 
   hi def link phpFCKeyword        phpKeyword
   hi def link phpSCKeyword        phpKeyword
+
+  hi def link phpStaticClasses    phpClasses
 
   if exists("php_var_selector_is_identifier")
     hi def link phpVarSelector    phpIdentifier
