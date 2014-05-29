@@ -89,7 +89,7 @@ unlet! b:current_syntax
 syntax spell default
 
 " Set sync method if none declared
-if !exists("php_sync_method")
+if ( ! exists("php_sync_method") || php_sync_method == 1)
   if exists("php_minlines")
     let php_sync_method=php_minlines
   else
@@ -109,11 +109,12 @@ syn include @sqlTop syntax/sql.vim
 syn sync clear
 unlet! b:current_syntax
 syn cluster sqlTop remove=sqlString,sqlComment
-if exists("php_sql_query")
+
+if ( ! exists("php_sql_query") || php_sql_query == 1)
   syn cluster phpAddStrings contains=@sqlTop
 endif
 
-if exists("php_html_in_strings")
+if ( ! exists("php_html_in_strings") || php_html_in_strings == 1)
   syn cluster phpAddStrings add=@htmlTop
 endif
 
