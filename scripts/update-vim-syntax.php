@@ -61,6 +61,10 @@ foreach ($configuration['extensions'] as $extensionName => $isEnabled) {
             );
         }
 
+        sort($options['classes'], SORT_NATURAL);
+        sort($options['functions'], SORT_NATURAL);
+        sort($options['constants'], SORT_NATURAL);
+
         $extensions[$extensionName] = $options;
 
     } catch (ReflectionException $e) {
