@@ -158,4 +158,4 @@ foreach ($processed as $extension) {
 	}
 }
 
-print str_replace('${code}', $code, file_get_contents(__DIR__ . '/syntax/php.template'));
+print str_replace('${code}', $code, file_get_contents(__DIR__ . '/../syntax/php.template'));

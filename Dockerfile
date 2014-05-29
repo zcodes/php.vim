@@ -23,4 +23,6 @@ RUN apt-get -y install \
 
 ADD . /build
 
+WORKDIR /build
+
 ENTRYPOINT ["/usr/bin/php"]
