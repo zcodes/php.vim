@@ -6,6 +6,13 @@ This project is a fork of [php.vim--Garvin][garvin] which in turn is an update o
   [garvin]:  https://github.com/vim-scripts/php.vim--Garvin
   [php-vim]: http://www.vim.org/scripts/script.php?script_id=2874
 
+Configuration
+-------------
+
+- `g:php_syntax_extensions_enabled`, `g:php_syntax_extensions_disabled`  
+  `b:php_syntax_extensions_enabled`, `b:php_syntax_extensions_disabled`
+
+  A list of extension names (lowercase) for which built-in functions, constants, classes and interfaces is enabled / disabled.
 
 Updating
 --------

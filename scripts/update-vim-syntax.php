@@ -75,35 +75,77 @@ foreach ($configuration['extensions'] as $extensionName => $isEnabled) {
     }
 }
 
+$blocks['extensions'][] = 'if ! exists("g:php_syntax_extensions_enabled")';
+$blocks['extensions'][] = sprintf(
+    '    let g:php_syntax_extensions_enabled = ["%s"]',
+    implode(
+        /* $glue = */ '", "',
+        array_map(
+            'strtolower',
+            array_keys($extensions)
+        )
+    )
+);
+$blocks['extensions'][] = 'endif';
+
+$blocks['extensions'][] = 'if ! exists("g:php_syntax_extensions_disabled")';
+$blocks['extensions'][] = '    let g:php_syntax_extensions_disabled = []';
+$blocks['extensions'][] = 'endif';
+
+$ifExtensionEnabled = function ($extensionName) {
+    return sprintf(
+        'if ' .
+        'index(g:php_syntax_extensions_enabled, "%1$s") >= 0 && ' .
+        'index(g:php_syntax_extensions_disabled, "%1$s") < 0 && ' .
+        '( ! exists("b:php_syntax_extensions_enabled") || index(b:php_syntax_extensions_enabled, "%1$s") >= 0) && ' .
+        '( ! exists("b:php_syntax_extensions_disabled") || index(b:php_syntax_extensions_disabled, "%1$s") < 0)',
+        strtolower($extensionName)
+    );
+};
+
 $blocks['extensions'][] = 'syn case match';
 
 foreach ($extensions as $extension) {
-    if (sizeof ($extension['constants'])) {
-        $blocks['extensions'][] = sprintf('" %s constants', $extension['name']);
-        $blocks['extensions'][] = sprintf(
-            'syn keyword phpConstants %s contained',
-            implode(/* $glue = */ ' ', $extension['constants'])
-        );
+    if (( ! sizeof($extension['constants']))) {
+        continue;
     }
+
+    $blocks['extensions'][] = $ifExtensionEnabled($extension['name']);
+
+    $blocks['extensions'][] = sprintf('" %s constants', $extension['name']);
+    $blocks['extensions'][] = sprintf(
+        'syn keyword phpConstants %s contained',
+        implode(/* $glue = */ ' ', $extension['constants'])
+    );
+
+    $blocks['extensions'][] = 'endif';
 }
 
 $blocks['extensions'][] = 'syn case ignore';
 
 foreach ($extensions as $extension) {
-    if (sizeof ($extension['functions'])) {
+    if (( ! sizeof($extension['functions']) && ! sizeof($extension['classes']))) {
+        continue;
+    }
+
+    $blocks['extensions'][] = $ifExtensionEnabled($extension['name']);
+
+    if (sizeof($extension['functions'])) {
         $blocks['extensions'][] = sprintf('" %s functions', $extension['name']);
         $blocks['extensions'][] = sprintf(
             'syn keyword phpFunctions %s contained',
             implode(/* $glue = */ ' ', $extension['functions'])
         );
     }
-    if (sizeof ($extension['classes'])) {
+    if (sizeof($extension['classes'])) {
         $blocks['extensions'][] = sprintf('" %s classes and interfaces', $extension['name']);
         $blocks['extensions'][] = sprintf(
             'syn keyword phpClasses %s contained',
             implode(/* $glue = */ ' ', $extension['classes'])
         );
     }
+
+    $blocks['extensions'][] = 'endif';
 }
 
 # Read the existing syntax file with block markers in it.
