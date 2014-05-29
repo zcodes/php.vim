@@ -20,6 +20,11 @@ ini_set('display_errors', 'On');
 
 $blocks = array(
     'extensions' => array(),
+    'last-modified' => sprintf(
+        '" %s, PHP %s',
+        date('r' /* RFC 2822 */),
+        PHP_VERSION
+    ),
 );
 
 # Parse the configuration file associated with this script.
@@ -129,7 +134,9 @@ $template = preg_replace(
 foreach ($blocks as $blockName => $blockLines) {
     $template = str_ireplace(
         sprintf('{{{%s}}}', $blockName),
-        rtrim(implode(PHP_EOL, $blockLines)),
+        rtrim(
+            is_array($blockLines) ? implode(PHP_EOL, $blockLines) : $blockLines
+        ),
         $template
     );
 }
