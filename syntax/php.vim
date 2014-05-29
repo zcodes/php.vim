@@ -118,7 +118,7 @@ syn keyword phpMagicConstants __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ _
 " $_SERVER Variables
 syn keyword phpServerVars GATEWAY_INTERFACE SERVER_NAME SERVER_SOFTWARE SERVER_PROTOCOL REQUEST_METHOD QUERY_STRING DOCUMENT_ROOT HTTP_ACCEPT HTTP_ACCEPT_CHARSET HTTP_ENCODING HTTP_ACCEPT_LANGUAGE HTTP_CONNECTION HTTP_HOST HTTP_REFERER HTTP_USER_AGENT REMOTE_ADDR REMOTE_PORT SCRIPT_FILENAME SERVER_ADMIN SERVER_PORT SERVER_SIGNATURE PATH_TRANSLATED SCRIPT_NAME REQUEST_URI PHP_SELF contained
 
-" === BEGIN BUILTIN FUNCTIONS, CLASSES, AND CONSTANTS ===================================
+" {{{ BLOCK: Extensions
 
 syn case match
 
@@ -324,8 +324,7 @@ syn keyword phpClasses ZipArchive contained
 " zlib
 syn keyword phpFunctions readgzfile gzrewind gzclose gzeof gzgetc gzgets gzgetss gzread gzopen gzpassthru gzseek gztell gzwrite gzputs gzfile gzcompress gzuncompress gzdeflate gzinflate gzencode gzdecode zlib_encode zlib_decode zlib_get_coding_type ob_gzhandler contained
 
-
-" === END BUILTIN FUNCTIONS, CLASSES, AND CONSTANTS =====================================
+" }}}
 
 " The following is needed afterall it seems.
 syntax keyword phpClasses containedin=ALLBUT,phpComment,phpDocComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar

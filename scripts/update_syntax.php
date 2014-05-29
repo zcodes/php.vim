@@ -158,4 +158,8 @@ foreach ($processed as $extension) {
 	}
 }
 
-print str_replace('${code}', $code, file_get_contents(__DIR__ . '/../syntax/php.template'));
+$template = file_get_contents(__DIR__ . '/../syntax/php.vim');
+
+$template = preg_replace('#^("\s*{{{\s*block:\s*extensions\b).*?("\s*}}})$#ism', '\1${extensions}\2', $template);
+
+print str_replace('${extensions}', PHP_EOL . PHP_EOL . rtrim($code) . PHP_EOL . PHP_EOL, $template);
