@@ -1,14 +1,13 @@
 FROM ubuntu:14.04
 MAINTAINER Stan Angeloff "stanimir@psp-webtech.co.uk"
 
-RUN echo 'deb http://ppa.launchpad.net/ondrej/php5/ubuntu trusty main' >> /etc/apt/sources.list && apt-key adv -q --keyserver 'keyserver.ubuntu.com' --recv-keys 'E5267A6C'
+RUN echo 'deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main' >> /etc/apt/sources.list && apt-key adv -q --keyserver 'keyserver.ubuntu.com' --recv-keys 'E5267A6C'
 
 RUN apt-get update
 RUN apt-get -y install \
     openssl \
 ;
 RUN apt-get -y install \
-    php5-apcu \
     php5-cli \
     php5-curl \
     php5-gd \
