@@ -1,7 +1,7 @@
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 MAINTAINER Stan Angeloff "stanimir@psp-webtech.co.uk"
 
-RUN echo 'deb http://ppa.launchpad.net/ondrej/php5/ubuntu precise main' >> /etc/apt/sources.list && apt-key adv -q --keyserver 'keyserver.ubuntu.com' --recv-keys 'E5267A6C'
+RUN echo 'deb http://ppa.launchpad.net/ondrej/php5/ubuntu trusty main' >> /etc/apt/sources.list && apt-key adv -q --keyserver 'keyserver.ubuntu.com' --recv-keys 'E5267A6C'
 
 RUN apt-get update
 RUN apt-get -y install \
