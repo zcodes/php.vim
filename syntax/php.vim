@@ -595,6 +595,29 @@ endif
 " Static classes
 syn match phpStaticClasses "\v\h\w+(::)@=" contained display
 
+" Class name
+syn keyword phpKeyword class contained
+      \ nextgroup=phpClass skipwhite skipempty
+syn match phpClass /\h\w*/
+
+" Class extends
+syn keyword phpKeyword extends contained
+      \ nextgroup=phpClassExtends skipwhite skipempty
+syn match phpClassExtends /\(\\\|\h\w*\)*\h\w*/
+
+" Class implements
+syntax keyword phpKeyword implements contained
+      \ nextgroup=phpClassImplements skipwhite skipempty
+syntax match phpClassImplements contained
+      \ nextgroup=phpClassDelimiter skipwhite skipempty /\(\\\|\h\w*\)*\h\w*/
+syntax match phpClassDelimiter contained
+      \ nextgroup=phpClassImplements skipwhite skipempty /,/
+
+" Function name
+syn keyword phpKeyword function contained
+      \ nextgroup=phpFunction skipwhite skipempty
+syn match phpFunction /\h\w*/
+
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
@@ -702,6 +725,12 @@ if !exists("did_php_syn_inits")
   else
     hi def link phpVarSelector    phpOperator
   endif
+
+  hi def link phpFunction        phpRegion
+  hi def link phpClass           phpRegion
+  hi def link phpClassExtends    phpClass
+  hi def link phpClassImplements phpClass
+  hi def link phpClassDelimiter  phpRegion
 
 endif
 
