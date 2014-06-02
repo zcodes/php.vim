@@ -3,7 +3,7 @@
 "
 " {{{ BLOCK: Last-modified
 
-" Thu, 29 May 2014 08:46:24 +0000, PHP 5.6.0beta3
+" Mon, 02 Jun 2014 07:13:11 +0000, PHP 5.6.0beta3
 
 " }}}
 "
@@ -32,12 +32,11 @@
 "       colourscheme, because elflord's colours will better highlight the break-points
 "       (Statements) in your code.
 "
-" Options:  php_sql_query = 1  for SQL syntax highlighting inside strings
-"           php_html_in_strings = 1  for HTML syntax highlighting inside strings
-"           php_parent_error_close = 1  for highlighting parent error ] or )
+" Options:  php_sql_query = 1  for SQL syntax highlighting inside strings (default: 0)
+"           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
+"           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
-"                                      if there exists an open ( or [ without a closing one
-"           php_no_shorttags = 1  don't sync <? ?> as php
+"                                      if there exists an open ( or [ without a closing one (default: 0)
 "           php_folding = 1  for folding classes and functions
 "           php_sync_method = x
 "                             x=-1 to sync by search ( default )
@@ -47,6 +46,7 @@
 "           php_var_selector_is_identifier = 1  include the '$' as part of identifiers.
 "                                               Variables will be highlighted as a single 'phpIdentifier' group
 "                                               instead of as 'phpOperator' for '$' and 'phpIdentifier' the rest.
+"                                               (default: 0)
 "
 "           g:php_syntax_extensions_enabled
 "           g:php_syntax_extensions_disabled  A list of extension names (lowercase) for which built-in functions,
@@ -110,11 +110,11 @@ syn sync clear
 unlet! b:current_syntax
 syn cluster sqlTop remove=sqlString,sqlComment
 
-if ( ! exists("php_sql_query") || php_sql_query == 1)
+if (exists("php_sql_query") && php_sql_query)
   syn cluster phpAddStrings contains=@sqlTop
 endif
 
-if ( ! exists("php_html_in_strings") || php_html_in_strings == 1)
+if (exists("php_html_in_strings") && php_html_in_strings)
   syn cluster phpAddStrings add=@htmlTop
 endif
 
@@ -513,7 +513,7 @@ syn match phpSpecialChar display contained /%%/ containedin=phpStringSingle,phpS
 
 " Error
 syn match phpOctalError "[89]"  contained display
-if exists("php_parent_error_close")
+if (exists("php_parent_error_close") && php_parent_error_close)
   syn match phpParentError "[)\]}]"  contained display
 endif
 
@@ -523,7 +523,7 @@ syn keyword phpTodo TODO FIXME XXX NOTE contained
 syn case ignore
 
 " Comment
-if exists("php_parent_error_open")
+if (exists("php_parent_error_open") && php_parent_error_open)
   syn region phpComment start="/\*" end="\*/" contained contains=phpTodo,@Spell
 else
   syn region phpComment start="/\*" end="\*/" contained contains=phpTodo,@Spell extend
@@ -557,7 +557,7 @@ else
 endif
 
 " String
-if exists("php_parent_error_open")
+if (exists("php_parent_error_open") && php_parent_error_open)
   syn region phpStringDouble matchgroup=phpStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
   syn region phpBacktick matchgroup=phpStringDelimiter start=+`+ skip=+\\\\\|\\"+ end=+`+  contains=@Spell,@phpAddStrings,phpIdentifier,phpSpecialChar,phpIdentifierSimply,phpIdentifierComplex,phpStrEsc contained keepend
   syn region phpStringSingle matchgroup=phpStringDelimiter start=+'+ skip=+\\\\\|\\'+ end=+'+  contains=@Spell,@phpAddStrings,phpStrEsc contained keepend
@@ -581,11 +581,11 @@ endif
   syn region phpNowDoc matchgroup=Delimiter start=+\(<<<\)\@<='\z(\I\i*\)'$+ end="^\z1\(;\=$\)\@=" contained keepend extend
 
 " Parent
-if exists("php_parent_error_close") || exists("php_parent_error_open")
+if (exists("php_parent_error_close") && php_parent_error_close) || (exists("php_parent_error_open") && php_parent_error_open)
   syn match  phpParent "[{}]"  contained
   syn region phpParent matchgroup=Delimiter start="(" end=")"  contained contains=@phpClFunction transparent
   syn region phpParent matchgroup=Delimiter start="\[" end="\]"  contained contains=@phpClInside transparent
-  if !exists("php_parent_error_close")
+  if ! (exists("php_parent_error_close") && php_parent_error_close)
     syn match phpParent "[\])]" contained
   endif
 else
@@ -625,7 +625,7 @@ syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStor
 syn cluster phpClTop contains=@phpClFunction,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
 
 " Php Region
-if exists("php_parent_error_open")
+if (exists("php_parent_error_open") && php_parent_error_open)
   syn region phpRegion matchgroup=Delimiter start="<?\(php\)\=" end="?>" contains=@phpClTop
 else
   syn region phpRegion matchgroup=Delimiter start="<?\(php\)\=" end="?>" contains=@phpClTop keepend
@@ -720,7 +720,7 @@ if !exists("did_php_syn_inits")
 
   hi def link phpStaticClasses    phpClasses
 
-  if exists("php_var_selector_is_identifier")
+  if (exists("php_var_selector_is_identifier") && php_var_selector_is_identifier)
     hi def link phpVarSelector    phpIdentifier
   else
     hi def link phpVarSelector    phpOperator
