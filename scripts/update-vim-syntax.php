@@ -18,9 +18,7 @@
 error_reporting(E_ALL | E_DEPRECATED | E_STRICT);
 ini_set('display_errors', 'On');
 
-if ( ! ini_get( 'date.timezone' ) ) {
-	ini_set( 'date.timezone', 'UTC' );
-}
+date_default_timezone_set('UTC');
 
 $blocks = array(
     'extensions' => array(),
