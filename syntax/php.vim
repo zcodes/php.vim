@@ -33,6 +33,7 @@
 "       (Statements) in your code.
 "
 " Options:  php_sql_query = 1  for SQL syntax highlighting inside strings (default: 0)
+"           php_sql_heredoc = 1 for SQL syntax highlighting inside heredocs (default: 1)
 "           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
 "           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
@@ -99,19 +100,25 @@ endif
 
 syn cluster htmlPreproc add=phpRegion
 
-" Use MySQL as the default SQL syntax file.
-" See https://github.com/StanAngeloff/php.vim/pull/1
-if !exists('b:sql_type_override') && !exists('g:sql_type_default')
-  let b:sql_type_override='mysql'
+if !exists("php_sql_heredoc")
+  let php_sql_heredoc=1
 endif
-syn include @sqlTop syntax/sql.vim
 
-syn sync clear
-unlet! b:current_syntax
-syn cluster sqlTop remove=sqlString,sqlComment
+if ((exists("php_sql_query") && php_sql_query) || (exists("php_sql_heredoc") && php_sql_heredoc))
+  " Use MySQL as the default SQL syntax file.
+  " See https://github.com/StanAngeloff/php.vim/pull/1
+  if !exists('b:sql_type_override') && !exists('g:sql_type_default')
+    let b:sql_type_override='mysql'
+  endif
+  syn include @sqlTop syntax/sql.vim
 
-if (exists("php_sql_query") && php_sql_query)
-  syn cluster phpAddStrings contains=@sqlTop
+  syn sync clear
+  unlet! b:current_syntax
+  syn cluster sqlTop remove=sqlString,sqlComment
+
+  if (exists("php_sql_query") && php_sql_query)
+    syn cluster phpAddStrings contains=@sqlTop
+  endif
 endif
 
 if (exists("php_html_in_strings") && php_html_in_strings)
@@ -573,7 +580,9 @@ syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\I\i*\)$" end="^
 syn region phpHereDoc matchgroup=Delimiter start=+\(<<<\)\@<="\z(\I\i*\)"$+ end="^\z1\(;\=$\)\@=" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
 " including HTML,JavaScript,SQL even if not enabled via options
 syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
-syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@=" contained contains=@sqlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
+if (exists("php_sql_heredoc") && php_sql_heredoc)
+  syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@=" contained contains=@sqlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
+endif
 syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlJavascript,phpIdentifierSimply,phpIdentifier,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
 syn case ignore
 
