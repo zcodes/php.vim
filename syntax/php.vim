@@ -35,6 +35,8 @@
 " Options:  php_sql_query = 1  for SQL syntax highlighting inside strings (default: 0)
 "           php_sql_heredoc = 1 for SQL syntax highlighting inside heredocs (default: 1)
 "           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
+"           php_html_in_heredoc = 1 for HTML syntax highlighting inside heredocs (default: 1)
+"           php_html_load = 1 for loading the HTML syntax at all.  Overwrites php_html_in_strings and php_html_in_heredoc (default: 1)
 "           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
 "                                      if there exists an open ( or [ without a closing one (default: 0)
@@ -84,10 +86,31 @@ if !exists("main_syntax")
   let main_syntax = 'php'
 endif
 
-runtime! syntax/html.vim
-unlet! b:current_syntax
-" HTML syntax file turns on spelling for all top level words, we attempt to turn off
-syntax spell default
+if !exists("php_html_load")
+  let php_html_load=1
+endif
+
+if (exists("php_html_load") && php_html_load)
+  if !exists("php_html_in_heredoc")
+    let php_html_in_heredoc=1
+  endif
+
+  runtime! syntax/html.vim
+  unlet! b:current_syntax
+  " HTML syntax file turns on spelling for all top level words, we attempt to turn off
+  syntax spell default
+
+  syn cluster htmlPreproc add=phpRegion
+else
+  " If it is desired that the HTML syntax file not be loaded at all, set the options for highlighting it in string
+  " and heredocs to false.
+  let php_html_in_strings=0
+  let php_html_in_heredoc=0
+endif
+
+if (exists("php_html_in_strings") && php_html_in_strings)
+  syn cluster phpAddStrings add=@htmlTop
+endif
 
 " Set sync method if none declared
 if ( ! exists("php_sync_method") || php_sync_method == 1)
@@ -97,8 +120,6 @@ if ( ! exists("php_sync_method") || php_sync_method == 1)
     let php_sync_method=-1
   endif
 endif
-
-syn cluster htmlPreproc add=phpRegion
 
 if !exists("php_sql_heredoc")
   let php_sql_heredoc=1
@@ -119,10 +140,6 @@ if ((exists("php_sql_query") && php_sql_query) || (exists("php_sql_heredoc") && 
   if (exists("php_sql_query") && php_sql_query)
     syn cluster phpAddStrings contains=@sqlTop
   endif
-endif
-
-if (exists("php_html_in_strings") && php_html_in_strings)
-  syn cluster phpAddStrings add=@htmlTop
 endif
 
 syn case match
@@ -578,12 +595,14 @@ endif
 syn case match
 syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\I\i*\)$" end="^\z1\(;\=$\)\@=" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
 syn region phpHereDoc matchgroup=Delimiter start=+\(<<<\)\@<="\z(\I\i*\)"$+ end="^\z1\(;\=$\)\@=" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
-" including HTML,JavaScript,SQL even if not enabled via options
-syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
+" including HTML,JavaScript,SQL if enabled via options
+if (exists("php_html_in_heredoc") && php_html_in_heredoc)
+  syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
+endif
 if (exists("php_sql_heredoc") && php_sql_heredoc)
   syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@=" contained contains=@sqlTop,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
+  syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlJavascript,phpIdentifierSimply,phpIdentifier,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
 endif
-syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)$" end="^\z1\(;\=$\)\@="  contained contains=@htmlJavascript,phpIdentifierSimply,phpIdentifier,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
 syn case ignore
 
 " NowDoc
