@@ -34,13 +34,17 @@
 "
 " Options:  php_sql_query = 1  for SQL syntax highlighting inside strings (default: 0)
 "           php_sql_heredoc = 1 for SQL syntax highlighting inside heredocs (default: 1)
+"           b:sql_type_override = 'postgresql' for PostgreSQL syntax highlighting in current buffer (default: 'mysql')
+"           g:sql_type_default = 'postgresql' to set global SQL syntax highlighting language default (default: 'mysql')"
 "           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
 "           php_html_in_heredoc = 1 for HTML syntax highlighting inside heredocs (default: 1)
 "           php_html_load = 1 for loading the HTML syntax at all.  Overwrites php_html_in_strings and php_html_in_heredoc (default: 1)
 "           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
 "                                      if there exists an open ( or [ without a closing one (default: 0)
-"           php_folding = 1  for folding classes and functions
+"           php_folding = 1  for folding try/catch, classes, and functions based on indent, finds a } with an indent matching
+"                            the structure.
+"                         2  for folding all { } pairs. (see known bugs ii)
 "           php_sync_method = x
 "                             x=-1 to sync by search ( default )
 "                             x>0 to sync at least x lines backwards
@@ -54,12 +58,6 @@
 "           g:php_syntax_extensions_enabled
 "           g:php_syntax_extensions_disabled  A list of extension names (lowercase) for which built-in functions,
 "                                             constants, classes and interfaces is enabled / disabled.
-"
-" Note:
-" Setting php_folding=1 will match a closing } by comparing the indent
-" before the class or function keyword with the indent of a matching }.
-" Setting php_folding=2 will match all of pairs of {,} ( see known
-" bugs ii )
 "
 " Known Bugs:
 "  - setting  php_parent_error_close  on  and  php_parent_error_open  off
