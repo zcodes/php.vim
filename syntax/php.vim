@@ -653,7 +653,7 @@ syn match phpFunction /\h\w*/
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
-syn cluster phpClControl contains=phpFoldIfContainer
+syn cluster phpClControl contains=phpFoldIfContainer,phpFoldWhile,phpFoldDoWhile
 syn cluster phpClTop contains=@phpClFunction,@phpClControl,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
 
 " Php Region
@@ -674,6 +674,9 @@ if exists("php_folding") && php_folding==1
   syn match phpException "\(\s\|^\)try\(\s\+.*}\)\@="  contained
   syn match phpException "\(\s\|^\)catch\(\s\+.*}\)\@="  contained
   syn match phpKeyword "^\s*\(if\|else\%[if]\)\s*\(.*{.*}$\|[^{}]*$\)\@=" contained
+  syn match phpKeyword "^\s*while\s*\([^{}]*$\|.*{.*}$\)\@=" contained
+  syn match phpKeyword "^\s*do\s*\([^{}]*$\|{.*}\s*while\s*.*;$\)\@=" contained
+  syn match phpKeyword "while\s*\((.*);$\)\@=" contained
 
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
@@ -688,6 +691,10 @@ if exists("php_folding") && php_folding==1
   syn region phpFoldIf matchgroup=phpKeyword start="^\z(\s*\)if\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\_s\+\%[elseif]\s\+[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend nextgroup=phpFoldElseIf,phpFoldElse fold transparent
   syn region phpFoldElseIf matchgroup=phpKeyword start="^\z(\s*\)\(}\s\+\)\=elseif\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\s*\%[elseif]\s*[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend nextgroup=phpFoldElseIf,phpFoldElse fold transparent 
   syn region phpFoldElse matchgroup=phpKeyword start="^\z(\s*\)\(}\s\+\)\=else\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\s\+\%[elseif]\s\+[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend fold transparent
+
+  syn region phpFoldWhile matchgroup=phpKeyword start="^\z(\s*\)while\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" contains=@phpClFunction contained fold extend
+  syn region phpFoldDoWhile matchgroup=phpkeyword start="^\z(\s*\)do\s\+\({$\)\@=" matchgroup=Delimiter end="\z1}\s\+\(while\s\+.*;$\)\@=" contains=@phpClFunction contained fold extend keepend
+
 elseif exists("php_folding") && php_folding==2
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
