@@ -653,7 +653,7 @@ syn match phpFunction /\h\w*/
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
-syn cluster phpClControl contains=phpFoldIfContainer,phpFoldWhile,phpFoldDoWhile,phpFoldFor
+syn cluster phpClControl contains=phpFoldIfContainer,phpFoldWhile,phpFoldDoWhile,phpFoldFor,phpFoldForeach
 syn cluster phpClTop contains=@phpClFunction,@phpClControl,phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTry,phpFoldCatch
 
 " Php Region
@@ -678,6 +678,7 @@ if exists("php_folding") && php_folding==1
   syn match phpKeyword "^\s*do\s*\([^{}]*$\|{.*}\s*while\s*.*;$\)\@=" contained
   syn match phpKeyword "while\s*\((.*);$\)\@=" contained
   syn match phpKeyword "^\s*for\s*\((.*)\s*{.*}$\|[^{}]*$\)\@=" contained
+  syn match phpKeyword "^\s*foreach\s*\((.*)\s*{.*}$\|[^{}]*$\)\@=" contained
 
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
@@ -697,6 +698,7 @@ if exists("php_folding") && php_folding==1
   syn region phpFoldDoWhile matchgroup=phpkeyword start="^\z(\s*\)do\s\+\({$\)\@=" matchgroup=Delimiter end="\z1}\s\+\(while\s\+.*;$\)\@=" contains=@phpClFunction contained fold extend keepend
 
   syn region phpFoldFor matchgroup=phpKeyword start="^\z(\s*\)for\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
+  syn region phpFoldForeach matchgroup=phpKeyword start="^\z(\s*\)foreach\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
 
 elseif exists("php_folding") && php_folding==2
   set foldmethod=syntax
