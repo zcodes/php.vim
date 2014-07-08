@@ -466,10 +466,15 @@ endif
 syntax keyword phpClasses containedin=ALLBUT,phpComment,phpDocComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar
 
 " Control Structures
-syn keyword phpKeyword if echo else elseif while do for foreach function break switch case default continue return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone yield contained
+syn keyword phpKeyword echo continue case default break return goto as endif endwhile endfor endforeach endswitch declare endeclare print new clone yield contained
+" Only create keyword groupings for these if not doing folding, otherwise they take precedence over the regions
+" used for folding.
+if php_folding != 1
+  syn keyword phpKeyword if else elseif while do for foreach function switch contained
 
-" Exception Keywords
-syn keyword phpKeyword try catch finally throw contained
+  " Exception Keywords
+  syn keyword phpKeyword try catch finally throw contained
+endif
 
 " Class Keywords
 syn keyword phpType class abstract extends interface implements static final var public private protected const trait contained
@@ -659,7 +664,7 @@ endif
 
 " Fold
 if exists("php_folding") && php_folding==1
-" match one line constructs here and skip them at folding
+  " match one line constructs here and skip them at folding
   syn keyword phpSCKeyword  abstract final private protected public static  contained
   syn keyword phpFCKeyword  function  contained
   syn match phpDefine "\(\s\|^\)\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\(\s\+.*[;}]\)\@="  contained contains=phpSCKeyword
