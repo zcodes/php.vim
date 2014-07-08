@@ -42,9 +42,9 @@
 "           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
 "                                      if there exists an open ( or [ without a closing one (default: 0)
-"           php_folding = 1  for folding try/catch, classes, and functions based on indent, finds a } with an indent matching
-"                            the structure.
-"                         2  for folding all { } pairs. (see known bugs ii)
+"           php_folding = 1  for folding loops, if/elseif/else, switch, try/catch, classes, and functions based on
+"                            indent, finds a } with an indent matching the structure.
+"                         2  for folding all { }, ( ), and [ ] pairs. (see known bugs ii)
 "           php_sync_method = x
 "                             x=-1 to sync by search ( default )
 "                             x>0 to sync at least x lines backwards
@@ -138,6 +138,11 @@ if ((exists("php_sql_query") && php_sql_query) || (exists("php_sql_heredoc") && 
   if (exists("php_sql_query") && php_sql_query)
     syn cluster phpAddStrings contains=@sqlTop
   endif
+endif
+
+" set default for php_folding so we don't have to keep checking its existence.
+if !exists("php_folding")
+  let php_folding = 0
 endif
 
 syn case match
@@ -664,7 +669,7 @@ else
 endif
 
 " Fold
-if exists("php_folding") && php_folding==1
+if php_folding==1
   " match one line constructs here and skip them at folding
   syn keyword phpSCKeyword  abstract final private protected public static  contained
   syn keyword phpFCKeyword  function  contained
@@ -707,7 +712,7 @@ if exists("php_folding") && php_folding==1
   syn region phpFoldFor matchgroup=phpKeyword start="^\z(\s*\)for\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
   syn region phpFoldForeach matchgroup=phpKeyword start="^\z(\s*\)foreach\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
 
-elseif exists("php_folding") && php_folding==2
+elseif php_folding==2
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
   syn region phpParent matchgroup=Delimiter start="{" end="}"  contained contains=@phpClFunction,phpFoldHtmlInside transparent fold
