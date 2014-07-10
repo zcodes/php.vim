@@ -20,8 +20,9 @@ RUN apt-get -y install \
     php5-sqlite \
 ;
 
-ADD . /build
+ADD scripts/ /build
 
 WORKDIR /build
 
 ENTRYPOINT ["/usr/bin/php"]
+CMD ["update-vim-syntax.php"]
