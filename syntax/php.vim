@@ -703,37 +703,37 @@ if php_folding==1
 
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
-  syn region phpFoldFunction matchgroup=Storageclass start="^\z(\s*\)\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\s\([^};]*$\)\@="rs=e-9 matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldHtmlInside,phpFCKeyword contained transparent fold extend
-  syn region phpFoldFunction matchgroup=Define start="^function\s\([^};]*$\)\@=" matchgroup=Delimiter end="^}" contains=@phpClFunction,phpFoldHtmlInside contained transparent fold extend
+  syn region phpFoldFunction matchgroup=Storageclass start="^\z(\s*\)\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\s\([^};]*$\)\@="rs=e-9 matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,@phpClControl,phpFoldHtmlInside,phpFCKeyword contained transparent fold extend
+  syn region phpFoldFunction matchgroup=Define start="^function\s\([^};]*$\)\@=" matchgroup=Delimiter end="^}" contains=@phpClFunction,@phpClControl,phpFoldHtmlInside contained transparent fold extend
   syn region phpFoldClass matchgroup=Structure start="^\z(\s*\)\(abstract\s\+\|final\s\+\)*class\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction,phpSCKeyword contained transparent fold extend
   syn region phpFoldInterface matchgroup=Structure start="^\z(\s*\)interface\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
 
-  syn region phpFoldTryContainer start="^\z(\s*\)try\s\+\(.*{$\)\@=" skip="^\z1}\_s*\(catch\|finally\)" end="^\z1}$" keepend extend contained contains=@phpClFunction,phpFoldFunction transparent
-  syn region phpFoldTry matchgroup=Exception start="^\z(\s*\)try\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" end="^\z1}\(\s\+\(catch\|finally\)\)\@="me=s-1 containedin=phpFoldTryContainer contained transparent keepend fold extend nextgroup=phpFoldCatch
-  syn region phpFoldCatch matchgroup=Exception start="^\z(\s*\)\(}\s\+\)\=catch\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" end="^\z1}\(\s\+\(catch\|finally\)\)\@="me=s-1 containedin=phpFoldTryContainer keepend contained transparent fold extend nextgroup=phpFoldCatch,phpFoldFinally
-  syn region phpFoldFinally matchgroup=Exception start="^\z(\s*\)\(}\s\+\)\=finally\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" contained containedin=phpFoldTryContainer transparent fold keepend
+  syn region phpFoldTryContainer start="^\z(\s*\)try\s\+\(.*{$\)\@=" skip="^\z1}\_s*\(catch\|finally\)" end="^\z1}$" keepend extend contained contains=@phpClFunction,@phpClControl,phpFoldFunction,phpFoldHtmlInside transparent
+  syn region phpFoldTry matchgroup=phpException start="^\z(\s*\)try\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" end="^\z1}\(\s\+\(catch\|finally\)\)\@="me=s-1 containedin=phpFoldTryContainer contained transparent keepend fold extend nextgroup=phpFoldCatch
+  syn region phpFoldCatch matchgroup=phpException start="^\z(\s*\)\(}\s\+\)\=catch\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" end="^\z1}\(\s\+\(catch\|finally\)\)\@="me=s-1 containedin=phpFoldTryContainer keepend contained transparent fold extend nextgroup=phpFoldCatch,phpFoldFinally
+  syn region phpFoldFinally matchgroup=phpException start="^\z(\s*\)\(}\s\+\)\=finally\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" contained containedin=phpFoldTryContainer transparent fold keepend
 
-  syn region phpFoldIfContainer start="^\z(\s*\)if\s\+\(.*{$\)\@=" skip="^\z1}\_s*else\%[if]" end="^\z1}$" keepend extend contained contains=@phpClFunction,phpFCKeyword
+  syn region phpFoldIfContainer start="^\z(\s*\)if\s\+\(.*{$\)\@=" skip="^\z1}\_s*else\%[if]" end="^\z1}$" keepend extend contained contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside
   syn region phpFoldIf matchgroup=phpKeyword start="^\z(\s*\)if\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\_s\+\%[elseif]\s\+[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend nextgroup=phpFoldElseIf,phpFoldElse fold transparent
   syn region phpFoldElseIf matchgroup=phpKeyword start="^\z(\s*\)\(}\s\+\)\=elseif\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\s*\%[elseif]\s*[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend nextgroup=phpFoldElseIf,phpFoldElse fold transparent 
   syn region phpFoldElse matchgroup=phpKeyword start="^\z(\s*\)\(}\s\+\)\=else\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="\(^\z1\)\@=}\(\s\+\%[elseif]\s\+[^}]*$\)\@="me=s-1 contained containedin=phpFoldIfContainer keepend fold transparent
 
-  syn region phpFoldSwitch matchgroup=phpKeyword start="^\z(\s*\)switch\s*\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" keepend extend contained contains=@phpClFunction,phpFCKeyword fold transparent
-  syn region phpFoldCase matchgroup=phpKeyword start="^\z(\s*\)case\s*\(.*:$\)\@=" end="^\z1\(case\|default\)"me=s-1 contained containedin=phpFoldSwitch keepend contains=@phpClFunction,phpFCKeyword nextgroup=phpFoldCase,phpFoldDefault fold transparent
-  syn region phpFoldDefault matchgroup=phpKeyword start="^\z(\s*\)default\(:$\)\@=" matchgroup=Delimiter end="\s*}$" contained contains=@phpClFunction,phpFCKeyword containedin=phpFoldSwitch keepend fold transparent
+  syn region phpFoldSwitch matchgroup=phpKeyword start="^\z(\s*\)switch\s*\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" keepend extend contained contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside fold transparent
+  syn region phpFoldCase matchgroup=phpKeyword start="^\z(\s*\)case\s*\(.*:$\)\@=" end="^\z1\(case\|default\)"me=s-1 contained containedin=phpFoldSwitch keepend contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside nextgroup=phpFoldCase,phpFoldDefault fold transparent
+  syn region phpFoldDefault matchgroup=phpKeyword start="^\z(\s*\)default\(:$\)\@=" matchgroup=Delimiter end="\s*}$" contained contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside containedin=phpFoldSwitch keepend fold transparent
 
-  syn region phpFoldWhile matchgroup=phpKeyword start="^\z(\s*\)while\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" contains=@phpClFunction contained fold extend
-  syn region phpFoldDoWhile matchgroup=phpkeyword start="^\z(\s*\)do\s\+\({$\)\@=" matchgroup=Delimiter end="\z1}\s\+\(while\s\+.*;$\)\@=" contains=@phpClFunction contained fold extend keepend
+  syn region phpFoldWhile matchgroup=phpKeyword start="^\z(\s*\)while\s\+\(.*{$\)\@=" matchgroup=Delimiter end="^\z1}$" contains=@phpClFunction,@phpClControl,phpFoldHtmlInside contained fold extend
+  syn region phpFoldDoWhile matchgroup=phpkeyword start="^\z(\s*\)do\s\+\({$\)\@=" matchgroup=Delimiter end="\z1}\s\+\(while\s\+.*;$\)\@=" contains=@phpClFunction,@phpClControl,phpFoldHtmlInside contained fold extend keepend
 
-  syn region phpFoldFor matchgroup=phpKeyword start="^\z(\s*\)for\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
-  syn region phpFoldForeach matchgroup=phpKeyword start="^\z(\s*\)foreach\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,phpFCKeyword contained transparent fold extend
+  syn region phpFoldFor matchgroup=phpKeyword start="^\z(\s*\)for\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside contained transparent fold extend
+  syn region phpFoldForeach matchgroup=phpKeyword start="^\z(\s*\)foreach\s\(.*{$\)\@=" matchgroup=Delimiter end="\z1}$" contains=@phpClFunction,@phpClControl,phpFCKeyword,phpFoldHtmlInside contained transparent fold extend
 
 elseif php_folding==2
   set foldmethod=syntax
   syn region phpFoldHtmlInside matchgroup=Delimiter start="?>" end="<?\(php\)\=" contained transparent contains=@htmlTop
   syn region phpParent matchgroup=Delimiter start="{" end="}"  contained contains=@phpClFunction,phpFoldHtmlInside transparent fold
-  syn region phpParent matchgroup=Delimiter start="(" end=")"  contained contains=@phpClInside,phpFoldHtmlInside transparent fold
-  syn region phpParent matchgroup=Delimiter start="\[" end="]"  contained contains=@phpClInside,phpFoldHtmlInside transparent fold
+  syn region phpParent matchgroup=Delimiter start="(" end=")"  contained contains=@phpClFunction,phpFoldHtmlInside transparent fold
+  syn region phpParent matchgroup=Delimiter start="\[" end="]"  contained contains=@phpClFunction,phpFoldHtmlInside transparent fold
 endif
 
 " Sync
@@ -767,7 +767,7 @@ if !exists("did_php_syn_inits")
   hi def link phpFunctions        Function
   hi def link phpMethods          Function
   hi def link phpClasses          StorageClass
-  hi def link phpException        StorageClass
+  hi def link phpException        Exception
   hi def link phpIdentifier       Identifier
   hi def link phpIdentifierSimply Identifier
   hi def link phpStatement        Statement
