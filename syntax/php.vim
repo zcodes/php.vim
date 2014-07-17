@@ -39,6 +39,7 @@
 "           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
 "           php_html_in_heredoc = 1 for HTML syntax highlighting inside heredocs (default: 1)
 "           php_html_load = 1 for loading the HTML syntax at all.  Overwrites php_html_in_strings and php_html_in_heredoc (default: 1)
+"           php_ignore_phpdoc = 0 for not highlighting parts of phpDocs
 "           php_parent_error_close = 1  for highlighting parent error ] or ) (default: 0)
 "           php_parent_error_open = 1  for skipping an php end tag,
 "                                      if there exists an open ( or [ without a closing one (default: 0)
@@ -574,7 +575,7 @@ endif
 syn match phpCommentStar contained "^\s*\*[^/]"me=e-1
 syn match phpCommentStar contained "^\s*\*$"
 
-if !exists("php_ignore_phpdoc")
+if !exists("php_ignore_phpdoc") || !php_ignore_phpdoc
   syn case ignore
 
   syn region phpDocComment   start="/\*\*" end="\*/" keepend contains=phpCommentTitle,phpDocTags,phpTodo,@Spell,phpDocIdentifier
