@@ -46,6 +46,8 @@
 "           php_folding = 1  for folding loops, if/elseif/else, switch, try/catch, classes, and functions based on
 "                            indent, finds a } with an indent matching the structure.
 "                         2  for folding all { }, ( ), and [ ] pairs. (see known bugs ii)
+"           php_phpdoc_folding = 0 Don't fold phpDoc comments (default)
+"                                1 Fold phpDoc comments
 "           php_sync_method = x
 "                             x=-1 to sync by search ( default )
 "                             x>0 to sync at least x lines backwards
@@ -150,12 +152,23 @@ if !exists("php_folding")
   let php_folding = 0
 endif
 
+" set default for php_phpdoc_folding so we don't have to keep checking its existence.
+if !exists("php_phpdoc_folding")
+  let php_phpdoc_folding = 0
+endif
+
 " Folding Support {{{
 "
 if php_folding==1 && has("folding")
   command! -nargs=+ SynFold <args> fold
 else
   command! -nargs=+ SynFold <args>
+endif
+
+if php_phpdoc_folding==1 && has("folding")
+  command! -nargs=+ SynFoldDoc <args> fold
+else
+  command! -nargs=+ SynFoldDoc <args>
 endif
 
 " }}}
@@ -582,7 +595,7 @@ syn match phpCommentStar contained "^\s*\*$"
 if !exists("php_ignore_phpdoc") || !php_ignore_phpdoc
   syn case ignore
 
-  syn region phpDocComment   start="/\*\*" end="\*/" keepend contains=phpCommentTitle,phpDocTags,phpTodo,@Spell
+  SynFoldDoc syn region phpDocComment   start="/\*\*" end="\*/" keepend contains=phpCommentTitle,phpDocTags,phpTodo,@Spell
   syn region phpCommentTitle contained matchgroup=phpDocComment start="/\*\*" matchgroup=phpCommmentTitle keepend end="\.$" end="\.[ \t\r<&]"me=e-1 end="[^{]@"me=s-2,he=s-1 end="\*/"me=s-1,he=s-1 contains=phpCommentStar,phpTodo,phpDocTags,@Spell containedin=phpDocComment
 
   syn region phpDocTags  start="{@\(example\|id\|internal\|inheritdoc\|link\|source\|toc\|tutorial\)" end="}" containedin=phpDocComment
@@ -818,6 +831,7 @@ endif
 " Cleanup: {{{
 
 delcommand SynFold
+delcommand SynFoldDoc
 let b:current_syntax = "php"
 
 let &iskeyword = s:iskeyword_save
