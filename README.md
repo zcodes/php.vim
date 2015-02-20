@@ -8,6 +8,16 @@ This project is a fork of [php.vim--Garvin][garvin] which in turn is an update o
   [garvin]:  https://github.com/vim-scripts/php.vim--Garvin
   [php-vim]: http://www.vim.org/scripts/script.php?script_id=2874
 
+Installation
+------------
+
+If you don't have a preferred installation method, [pathogen.vim](https://github.com/tpope/vim-pathogen) is quick and simple. With pathogen.vim installed, run the following commands:
+
+```bash
+cd ~/.vim/bundle
+git clone git@github.com:StanAngeloff/php.vim.git
+```
+
 Configuration
 -------------
 
@@ -16,16 +26,7 @@ Configuration
 
   A list of extension names (lowercase) for which built-in functions, constants, classes and interfaces is enabled / disabled.
 
-Pathogen Installation
--------------
-
-If you don't have a preferred installation method, [pathogen.vim](https://github.com/tpope/vim-pathogen) is quick and simple. With pathogen.vim installed, simply copy and paste:
-
-    cd ~/.vim/bundle
-    git clone git@github.com:StanAngeloff/php.vim.git
-
-Overriding Highlighting
--------------
+### Overriding Highlighting
 
 Syntax highlighting can be configured to distinguish groups by overriding the defaults. For example, all code in PHP comments is highlighted as `phpComment`, however there are pieces you can tweak, e.g., how `@tags` appear.
 There are [many groups you can choose from](https://github.com/StanAngeloff/php.vim/blob/48fc7311fa07c2b83888e7a31fae03118bae720b/syntax/php.vim#L754). Here is how you can override PHP `@tags` and `$parameters` in comments to appear in a different group:
