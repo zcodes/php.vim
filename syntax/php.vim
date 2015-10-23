@@ -682,7 +682,7 @@ syntax match phpClassDelimiter contained
 " Function name
 syn keyword phpKeyword function contained
       \ nextgroup=phpFunction skipwhite skipempty
-syn match phpFunction /\h\w*/
+syn match phpFunction /\(use\sfunction\s*\)\@<!\h\w*/
 
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
