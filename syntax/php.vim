@@ -519,7 +519,7 @@ syn keyword phpStatement __construct __destruct __call __callStatic __get __set 
 syn keyword phpKeyword die exit eval empty isset unset list instanceof insteadof contained
 
 " Include & friends
-syn keyword phpInclude include include_once require require_once namespace use contained
+syn keyword phpInclude include include_once require require_once namespace contained
 
 " Types
 syn keyword phpType bool[ean] int[eger] real double float string array object null self parent global this stdClass callable contained
@@ -679,10 +679,17 @@ syntax match phpClassImplements contained
 syntax match phpClassDelimiter contained
       \ nextgroup=phpClassImplements skipwhite skipempty /,/
 
+" use statement
+syn keyword phpInclude use contained
+      \ nextgroup=phpUseFunction,phpUseClass skipwhite skipempty
+syn match phpUseFunction /function\s\+\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseKeyword
+syn match phpUseClass /\(function\s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained
+syn match phpUseKeyword /function\s\+/ contained contains=phpKeyword
+
 " Function name
 syn keyword phpKeyword function contained
       \ nextgroup=phpFunction skipwhite skipempty
-syn match phpFunction /\(use\sfunction\s*\)\@<!\h\w*/
+syn match phpFunction /\h\w*/
 
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
