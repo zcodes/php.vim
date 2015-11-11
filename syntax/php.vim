@@ -682,9 +682,12 @@ syntax match phpClassDelimiter contained
 " use statement
 syn keyword phpInclude use contained
       \ nextgroup=phpUseFunction,phpUseClass skipwhite skipempty
-syn match phpUseFunction /function\s\+\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseKeyword
-syn match phpUseClass /\(function\s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained
-syn match phpUseKeyword /function\s\+/ contained contains=phpKeyword
+syn match phpUseFunction /function\_s\+\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseKeyword
+      \ nextgroup=phpUseAlias skipwhite skipempty
+syn match phpUseClass /\(function\_s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained
+      \ nextgroup=phpUseAlias skipwhite skipempty
+syn match phpUseAlias /as\_s\+\h\w*/ contained contains=phpUseKeyword
+syn match phpUseKeyword /\(function\|as\)\_s\+/ contained contains=phpKeyword
 
 " Function name
 syn keyword phpKeyword function contained
