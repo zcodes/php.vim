@@ -537,6 +537,8 @@ syn match phpMemberSelector "->\|::"  contained display
 syn match phpVarSelector    "\$"  contained display
 " highlight static and object variables inside strings
 syn match phpMethodsVar     "\%(->\|::$\?\)\h\w*" contained contains=phpMethods,phpMemberSelector,phpIdentifier display containedin=phpStringDouble
+syn match phpMethodsVar     "\%(->\|::\%($\)\@!\)\s*\h\w*\s*("me=e-1 skipwhite skipempty contained contains=phpMemberSelector,phpMethod display containedin=phpStringDouble
+syn match phpMethod /\h\w*/
 syn match phpSplatOperator  "\.\.\." contained display
 
 " Identifier
