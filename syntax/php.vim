@@ -561,8 +561,8 @@ syn match phpNumber "\<\d\+\%([eE][+-]\=\d\+\)\=\>" contained display
 syn match phpNumber "-\d\+\%([eE][+-]\=\d\+\)\=\>" contained display
 
 " Float
-syn match phpNumber "\<\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%([eE][+-]\=\d\+\)\=\>"
-syn match phpNumber "-\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%([eE][+-]\=\d\+\)\=\>"
+syn match phpNumber "\<\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%([eE][+-]\=\d\+\)\=\>" contained display
+syn match phpNumber "-\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%([eE][+-]\=\d\+\)\=\>" contained display
 
 " SpecialChar
 syn match phpSpecialChar "\\[fnrtv\\]" contained display
