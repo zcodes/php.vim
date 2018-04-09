@@ -535,7 +535,9 @@ syn keyword phpKeyword die exit eval empty isset unset list instanceof insteadof
 syn keyword phpInclude include include_once require require_once namespace contained
 
 " Types
-syn keyword phpType bool[ean] int[eger] real double float string array object null self parent global this stdClass callable iterable void contained
+syn keyword phpType bool[ean] int[eger] real double float string array object self parent global this stdClass callable iterable void contained
+" Special values
+syn keyword phpNullValue null contained
 
 " Operator
 syn match phpOperator       "[-=+%^&|*!.~?:]" contained display
@@ -561,9 +563,6 @@ syn region phpIdentifierComplex  matchgroup=phpParent start="{\$"rs=e-1 end="}" 
 
 " Boolean
 syn keyword phpBoolean true false  contained
-
-" NULL
-syn keyword phpNull null contained
 
 " Number
 syn match phpNumber "\<\d\+\>" contained display
@@ -730,7 +729,7 @@ syn keyword phpKeyword function contained
 syn match phpFunction /\h\w*/ contained
 
 " Clusters
-syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpNull,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
+syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpNullValue,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
 syn cluster phpClFunction contains=@phpClInside,phpDefine,phpParentError,phpStorageClass,phpKeyword
 syn cluster phpClControl contains=phpFoldIfContainer,phpFoldWhile,phpFoldDoWhile,phpFoldFor,phpFoldForeach,phpFoldTryContainer,phpFoldSwitch
@@ -815,7 +814,6 @@ if !exists("did_php_syn_inits")
   hi def link phpMagicConstants   Constant
   hi def link phpServerVars       Constant
   hi def link phpConstants        Constant
-  hi def link phpNull             Constant
   hi def link phpBoolean          Boolean
   hi def link phpNumber           Number
   hi def link phpStringSingle     String
@@ -839,6 +837,7 @@ if !exists("did_php_syn_inits")
   hi def link phpKeyword          Keyword
   hi def link phpSuperglobals     Type
   hi def link phpType             Type
+  hi def link phpNullValue        phpType
   hi def link phpParent           Special
   hi def link phpSpecialChar      SpecialChar
   hi def link phpStrEsc           SpecialChar
