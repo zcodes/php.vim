@@ -165,7 +165,7 @@ if !exists("php_xml_heredoc")
 endif
 
 if !exists("php_xml_nowdoc")
-  let php_xml_nowdoc=1
+  let php_xml_nowdoc=0
 endif
 
 if ((exists("php_xml_heredoc") && php_xml_heredoc) || (exists("php_xml_nowdoc") && php_xml_nowdoc))
