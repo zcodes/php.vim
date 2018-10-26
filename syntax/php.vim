@@ -37,7 +37,7 @@
 "           php_sql_nowdoc = 1 for SQL syntax highlighting inside nowdocs (default: 1)
 "           b:sql_type_override = 'postgresql' for PostgreSQL syntax highlighting in current buffer (default: 'mysql')
 "           g:sql_type_default = 'postgresql' to set global SQL syntax highlighting language default (default: 'mysql')"
-"           php_xml_heredoc = 1 for XML syntax highlighting inside heredocs (default: 1)
+"           php_xml_heredoc = 1 for XML syntax highlighting inside heredocs (default: 0)
 "           php_xml_nowdoc = 1 for XML syntax highlighting inside nowdocs (default: 1)
 "           php_html_in_strings = 1  for HTML syntax highlighting inside strings (default: 0)
 "           php_html_in_heredoc = 1 for HTML syntax highlighting inside heredocs (default: 1)
