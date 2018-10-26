@@ -161,7 +161,7 @@ if ((exists("php_sql_query") && php_sql_query) || (exists("php_sql_heredoc") && 
 endif
 
 if !exists("php_xml_heredoc")
-  let php_xml_heredoc=1
+  let php_xml_heredoc=0
 endif
 
 if !exists("php_xml_nowdoc")
