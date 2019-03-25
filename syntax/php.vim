@@ -791,6 +791,15 @@ syn keyword phpKeyword function contained
       \ nextgroup=phpFunction skipwhite skipempty
 syn match phpFunction /\h\w*/ contained
 
+" PHP 7 Generator & delegation via yield from
+"
+" See https://www.php.net/manual/en/language.generators.syntax.php#control-structures.yield
+" See https://www.php.net/manual/en/language.generators.syntax.php#control-structures.yield.from
+"
+syn keyword phpKeyword yield contained
+      \ nextgroup=phpYieldFromKeyword skipwhite skipempty
+syn match phpYieldFromKeyword /\<from\>/ contained
+
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpNullValue,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
 syn cluster phpClInside contains=@phpClConst,phpComment,phpDocComment,phpParent,phpParentError,phpInclude,phpHereDoc,phpNowDoc
@@ -919,6 +928,7 @@ if !exists("did_php_syn_inits")
 
   hi def link phpFCKeyword        phpKeyword
   hi def link phpSCKeyword        phpKeyword
+  hi def link phpYieldFromKeyword phpKeyword
 
   hi def link phpStaticClasses    phpClasses
 
