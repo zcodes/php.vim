@@ -680,7 +680,7 @@ syn case match
 
 " HereDoc
 if version >= 704
-  if php_version_id >= 70300
+  if b:php_version_id >= 70300
     " @begin phpHereDoc
     SynFold syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@3<=\z(\I\i*\)$" end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
     SynFold syn region phpHereDoc matchgroup=Delimiter start=+\(<<<\)\@3<="\z(\I\i*\)"$+ end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
@@ -714,7 +714,7 @@ if version >= 704
   " @end phpHereDoc
   endif
 else
-  if php_version_id >= 70300
+  if b:php_version_id >= 70300
     " @copy phpHereDoc strip_maximum_size
     SynFold syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\I\i*\)$" end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
     SynFold syn region phpHereDoc matchgroup=Delimiter start=+\(<<<\)\@<="\z(\I\i*\)"$+ end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
@@ -751,7 +751,7 @@ endif
 
 " NowDoc
 if version >= 704
-  if php_version_id >= 70300
+  if b:php_version_id >= 70300
   " @begin phpNowDoc
     SynFold syn region phpNowDoc matchgroup=Delimiter start=+\(<<<\)\@3<='\z(\I\i*\)'$+ end="^\s*\z1\>" contained keepend extend
     " including HTML,JavaScript,SQL if enabled via options
@@ -783,7 +783,7 @@ if version >= 704
     " @end phpNowDoc
   endif
 else
-  if php_version_id >= 70300
+  if b:php_version_id >= 70300
     " @copy phpHereDoc strip_maximum_size
     SynFold syn region phpHereDoc matchgroup=Delimiter start="\(<<<\)\@<=\z(\I\i*\)$" end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
     SynFold syn region phpHereDoc matchgroup=Delimiter start=+\(<<<\)\@<="\z(\I\i*\)"$+ end="^\s*\z1\>" contained contains=@Spell,phpIdentifier,phpIdentifierSimply,phpIdentifierComplex,phpSpecialChar,phpMethodsVar,phpStrEsc keepend extend
