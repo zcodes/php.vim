@@ -27,6 +27,13 @@ Configuration
 
 `php.vim` comes with sensible defaults for most use cases. Below is a list of some interesting configuration options you may tweak. Refer to the [source code][php.vim-source] for additional options.
 
+- `g:php_version_id`,
+  `b:php_version_id`
+  
+  Default: `g:php_version_id = 70300`
+  
+  The PHP version the Vim syntax should adhere to. This currently determines how strict [Heredoc/Nowdoc syntax](https://www.php.net/manual/en/migration73.new-features.php#migration73.new-features.core.heredoc) should be. The format of the Vim variable follows the [PHP predefined constant `PHP_VERSION_ID `](https://www.php.net/manual/en/reserved.constants.php#constant.php-version-id).
+
 - `g:php_syntax_extensions_enabled`, `g:php_syntax_extensions_disabled`  
   `b:php_syntax_extensions_enabled`, `b:php_syntax_extensions_disabled`
 
